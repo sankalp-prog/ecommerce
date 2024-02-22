@@ -1,5 +1,3 @@
-
-
 # Create your views here.
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -9,7 +7,7 @@ SANKALP = 1
 
 
 def index(request):
-    return render(request, "index.html",{"thing": 20})
+    return render(request, "index.html")
 
 def product(request, id):
     response = "you are looking at the products Page"
@@ -32,3 +30,9 @@ def add_to_cart(request, product_id):
     cart_item = CartItem(user_id=SANKALP, product_id=product_id, quantity = 1)
     cart_item.save()
     return HttpResponse(cart_item.id)
+
+def signup(request, email_id, password):
+    print(email_id, password)
+    user = User(email=email_id, password=password, first_name='', last_name='', location='')
+    user.save()
+    return HttpResponse(request, "index.html")

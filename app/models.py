@@ -2,12 +2,14 @@ from django.db import models
 
 # Create your models here.
 class User(models.Model):
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
-    location = models.CharField(max_length=200)
+    email = models.CharField(max_length=200, default="blank")
+    password = models.CharField(max_length=200, default="blank")
+    first_name = models.CharField(max_length=200,blank=True)
+    last_name = models.CharField(max_length=200,blank=True)
+    location = models.CharField(max_length=200,blank=True)
 
     def __str__(self):
-        return f"User({self.first_name}, {self.last_name}, {self.location})"
+        return f"User({self.first_name}, {self.last_name}, {self.location}, {self.email}, {self.password})"
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
@@ -16,7 +18,7 @@ class Product(models.Model):
     prod_desc = models.CharField(max_length=400)
 
     def __str__(self):
-        return f"User({self.name}, {self.price}, {self.img_url}, {self.prod_desc})"
+        return f"Product({self.name}, {self.price}, {self.img_url}, {self.prod_desc})"
 
 class CartItem(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
@@ -24,7 +26,7 @@ class CartItem(models.Model):
     quantity = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"User({self.user}, {self.product}, {self.quantity})"
+        return f"CartItem({self.user}, {self.product}, {self.quantity})"
 
 
 
