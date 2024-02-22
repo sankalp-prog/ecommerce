@@ -10,8 +10,9 @@
 </head>
 <body>
     {% include 'header.html' %}
+    <div>User name: {{ user.username }}</div>
     <div>First name: {{ user.first_name }}</div>
     <div>Last name: {{ user.last_name }}</div>
-    <div>Shipping address: {{ user.location }}</div>
+    <div>Shipping address: {{ location }}</div>
 </body>
 </html>
