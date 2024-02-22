@@ -4,12 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product</title>
+    <style>
+        body { font-family: Arial }
+        #image { width: 600px; border-radius: 30px }
+        #image-and-details { display: flex }
+        #details { padding: 30px }
+        #name { font-size: 30px }
+    </style>
 </head>
 <body>
-    <div>{{product.price}}</div>
-    <div>{{product.id}}</div>
-    <img src="{{product.img_url}}">
-    <div>{{product.name}}</div>
-    <div>{{product.prod_desc}}</div>
+    {% include 'header.html' %}
+    <div id="image-and-details">
+        <img id="image" src="{{product.img_url}}">
+        <div id="details">
+            <div id="name">{{product.name}}</div>
+            <div id="price">Price: ₹{{product.price}}</div>
+            <div id="description">{{product.prod_desc}}</div>
+            <button onClick="addToCart()">Add to Cart</button>
+        </div>
+    </div>
+
+    {% csrf_token %}
+    <script>
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        const productId = {{product.id}};
+        function addToCart() {
+            const ajax = new XMLHttpRequest();
+            ajax.onReadyStateChange = () => {
+                console.log(this.readyState, this.status, this.statusText, this.responseText);
+            };
+            ajax.open("POST", `/app/add_to_cart/${productId}`, true);
+            ajax.setRequestHeader("X-CSRFToken", csrfToken);
+            ajax.send("");
+        }
+    </script>
 </body>
 </html>

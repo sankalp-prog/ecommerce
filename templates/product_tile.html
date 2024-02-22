@@ -1,0 +1,15 @@
+    <style>
+        .feed-tile { display: inline-block; border-radius: 20px; overflow: hidden; text-align: center; border: 1px solid rgba(0, 0, 0, 0); margin: 10px; cursor: pointer }
+        .feed-tile:hover { background-color: #EEE; border: 1px solid black; }
+    </style>
+
+    <div class="feed-tile" onClick="viewProduct({{ product.id }})">
+        <img src="{{ product.img_url }}" width=300 height=300 />
+        <div>{{ product.name }}</div>
+    </div>
+
+    <script>
+    function viewProduct(productId) {
+        window.location.href = `/app/product/${productId}`;
+    }
+    </script>

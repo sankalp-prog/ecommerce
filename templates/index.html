@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Planet Sankalp</title>
+
+    <style>
+        body { font-family: Arial; }
+        .feed-tile { display: inline-block; border-radius: 20px; overflow: hidden; text-align: center; border: 1px solid rgba(0, 0, 0, 0); margin: 10px; cursor: pointer }
+        .feed-tile:hover { background-color: #EEE; border: 1px solid black; }
+    </style>
 </head>
 <body>
-    <p>hello world</p>
-    <!-- <div>{{thing}}</div> -->
-    <!-- <script>const thing = {{thing}};
-    console.log(thing)</script> -->
+    {% include 'header.html' %}
+    {% for product in product_feed %}
+        {% include 'product_tile.html' %}
+    {% endfor %}
 </body>
 </html>

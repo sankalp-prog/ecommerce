@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search</title>
+    <style>
+        body { font-family: Arial }
+        #search-reminder { font-size: 24px; padding: 20px 0 20px 40px }
+    </style>
 </head>
 <body>
+    {% include 'header.html' %}
+    <div id="search-reminder">Results for: {{ search_text }}</div>
     {% for product in product_search_results %}
-    <div>{{product.name}}</div>
+        {% include 'product_tile.html' %}
     {% endfor %}
 </body>
 </html>

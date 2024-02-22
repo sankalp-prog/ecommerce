@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product</title>
+    <style>
+        body { font-family: Arial }
+        #image { width: 600px; border-radius: 30px }
+        #image-and-details { display: flex }
+        #details { padding: 30px }
+        #name { font-size: 30px }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+    {% for cart_item in cart %}
+        <div>
+            <div>Product: {{ cart_item.product }}</div>
+            <div>Quantity: {{ cart_item.quantity }}</div>
+        </div>
+    {% endfor %}
+
+</body>
+</html>
