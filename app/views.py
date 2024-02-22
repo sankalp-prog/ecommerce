@@ -8,33 +8,7 @@ SANKALP = 1
 
 def index(request):
     return render(request, "index.html", {
-        "product_feed": [
-            {
-                "img_url": "https://wakefitdev.gumlet.io/img/npl_modified_images/darcy/sofa_WLCHRDRCFVBL/sofa_WLCHRDRCFVBL_1.jpg?w=732",
-                "name": "Wakefit Darcy Lounge Chair (blue)",
-                "id": 1
-            },
-            {
-                "img_url": "https://wakefitdev.gumlet.io/img/npl_modified_images/darcy/sofa_WLCHRDRCFVSG/sofa_WLCHRDRCFVSG_1.jpg?w=732",
-                "name": "Wakefit Darcy Lounge Chair (space grey)",
-                "id": 2
-            },
-            {
-                "img_url": "https://wakefitdev.gumlet.io/img/npl_modified_images/darcy/sofa_WLCHRDRCFVTT/sofa_WLCHRDRCFVTT_1.jpg?w=732",
-                "name": "Wakefit Darcy Lounge Chair (tuscan tan)",
-                "id": 3
-            },
-            {
-                "img_url": "https://wakefitdev.gumlet.io/img/npl_modified_images/darcy/sofa_WLCHRDRCFVAM/sofa_WLCHRDRCFVAM_1.jpg?w=732",
-                "name": "Wakefit Darcy Lounge Chair (amber)",
-                "id": 4
-            },
-            {
-                "img_url": "https://wakefitdev.gumlet.io/img/npl_modified_images/darcy/sofa_WLCHRDRCFVST/sofa_WLCHRDRCFVST_1.jpg?w=732",
-                "name": "Wakefit Darcy Lounge Chair (stone)",
-                "id": 5
-            },
-        ]
+        "product_feed": Product.objects.all()[:15]
     })
 
 def product(request, id):
@@ -64,3 +38,15 @@ def signup(request, email_id, password):
     user = User(email=email_id, password=password, first_name='', last_name='', location='')
     user.save()
     return HttpResponse(request, "index.html")
+
+def add_product(request):
+    name = request.POST["name"]
+    price = request.POST["price"]
+    img_url = request.POST["img_url"]
+    prod_desc = request.POST["prod_desc"]
+    product = Product(name=name, price=price, img_url=img_url, prod_desc=prod_desc)
+    product.save()
+    return render(request, "product.html", {"product": product})
+
+def product_form(request):
+    return render(request, "product_form.html")

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Form</title>
+</head>
+<body>
+    {% include 'header.html' %}
+    <form action="/app/add_product/" method="post">
+        {% csrf_token %}
+        Product Name : <input type="text" name="name" ><br><br>
+        Product Price : <input type="text" name = "price"><br><br>
+        Product Image Url : <input type="text" name = "img_url"><br><br>
+        Product description : <input type="text" name = "prod_desc"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
