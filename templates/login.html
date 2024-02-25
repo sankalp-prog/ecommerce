@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Up</title>
+    <title>Login</title>
 </head>
 <body>
+    {% include 'header.html' %}
     <form action="/app/login/" method="post">
         {% csrf_token %}
         Email : <input type="text" name="email" ><br><br>

@@ -1,7 +1,7 @@
 # Create your views here.
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout as django_logout
 from app.models import Product,CartItem,Profile
 from django.contrib.auth.models import User
 
@@ -12,19 +12,29 @@ def index(request):
     })
 
 def product(request, id):
-    response = "you are looking at the products Page"
     product = Product.objects.get(id=id)
     return render(request, "product.html",{"product": product})
 
 def cart(request):
-    cart = CartItem.objects.filter(user__exact=request.user.id)
-    return render(request, "cart.html", {"cart": cart})
+    user = request.user
+    if user.is_authenticated:
+        # Show cart
+        cart = CartItem.objects.filter(user__exact=user.id)
+        return render(request, "cart.html", {"cart": cart})
+    else:
+        # Show log-in form
+        return render(request, "login.html")
 
-def user(request):
+def user_page(request):
     user = request.user
     print(user)
-    profile = Profile.objects.get(user=user)
-    return render(request, "user.html",{"user": user, "location": profile.location})
+    if user.is_authenticated:
+        # Show user details
+        profile = Profile.objects.get(user=user.id)
+        return render(request, "user.html",{"user": user, "location": profile.location})
+    else:
+        # Show log-in form
+        return render(request, "login.html")
 
 def search(request,text):
     search = Product.objects.filter(name__icontains=text)
@@ -53,13 +63,16 @@ def login(request):
     user = authenticate(username = email, password = password)
     if user is not None:
         auth_login(request, user)
-        return HttpResponse("login successful")
+        return user_page(request)
     else:
         return HttpResponse("username/password is not in the database")
-    # return render(request, "login.html")
 
 def login_form(request):
-    return render(request, "login.html") 
+    return render(request, "login.html")
+
+def logout(request):
+    django_logout(request)
+    return index(request)
 
 def signup(request):
     first_name = request.POST["first_name"]
@@ -67,17 +80,16 @@ def signup(request):
     email_id = request.POST["email"]
     password = request.POST["password"]
     location = request.POST["location"]
+
     user = User.objects.create_user(username = email_id, password = password, first_name = first_name, last_name = last_name)
+    auth_login(request, user)
+
     profile = Profile(user=user, location=location)
-
-    ##for the user table we made
-    # user = User(email=email_id, password=password, first_name='', last_name='', location='') 
-
     profile.save()
+
     return render(request, "index.html", {
         "product_feed": Product.objects.all()[:15]
     })
 
 def signup_form(request):
     return render(request, "signup.html") 
-

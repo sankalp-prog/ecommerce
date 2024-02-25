@@ -19,6 +19,8 @@
             <div>Product: {{ cart_item.product }}</div>
             <div>Quantity: {{ cart_item.quantity }}</div>
         </div>
+    {% empty %}
+        <div>No items here! Browse products and add them to your cart.</div>
     {% endfor %}
 
 </body>
